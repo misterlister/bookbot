@@ -1,12 +1,21 @@
 def main():
-    book_path = "books/Frankenstein.txt"
+    book_path = get_book_path()
     text = get_book_text(book_path)
-    make_report(book_path, text)
+    if text is not None:
+        make_report(book_path, text)
+
+def get_book_path():
+    path = input("Please enter the path to the book you wish to analyze (eg. books/frankenstein.txt): ")
+    return path
 
 def get_book_text(path):
-    with open(path) as f:
-        return f.read()
-    
+    try:
+        with open(path) as f:
+            return f.read()
+    except:
+        print("Error. That is not a valid book path.")
+        return None
+
 def get_num_words(text):
     words = text.split()
     return len(words)
@@ -19,7 +28,6 @@ def count_letters(text):
             letter_count[lower_letter] = 0
         letter_count[lower_letter] += 1
     return letter_count
-    
 def make_report(path, text):
     num_words = get_num_words(text)
     character_count = count_letters(text)
